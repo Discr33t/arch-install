@@ -95,7 +95,9 @@ setup() {
 }
 
 configure() {
-    sleep 10
+    #Allowing 5 downloads simultaneously.
+    sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
+
     echo "Installing Packages"
     install_packages
 
