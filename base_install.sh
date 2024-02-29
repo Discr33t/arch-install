@@ -90,7 +90,7 @@ setup() {
         echo 'Unmounting filesystems'
         exit_chroot
         echo 'Done! Reboot system.'
-        exit 
+        exit 0
     fi
 }
 
