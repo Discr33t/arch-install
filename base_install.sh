@@ -57,6 +57,7 @@ input () {
     read -p "Extra Packages: " PACKAGES
     export PACKAGES
     clear
+
 }
 
 setup() {
@@ -92,14 +93,12 @@ setup() {
         echo 'Done! Reboot system.'
         exit 0
     fi
+
 }
 
 configure() {
     #Allowing 5 downloads simultaneously.
     sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
-
-    echo "Installing Packages"
-    install_packages
 
     echo "Setting Timezone"
     set_timezone
@@ -127,6 +126,7 @@ configure() {
     boot_loader
 
     rm /setup.sh
+
 }
 
 partition_drive() { 
@@ -139,6 +139,7 @@ partition_drive() {
         set 1 esp on \
         set 3 swap on \
         set 4 linux-home on
+
 }
 
 format_partition() {
@@ -146,6 +147,7 @@ format_partition() {
     mkfs.ext4 /dev/$part2
     mkswap /dev/$part3
     mkfs.ext4 /dev/$part4
+
 }
 
 mount_filesystems() {
@@ -153,29 +155,35 @@ mount_filesystems() {
     mount --mkdir /dev/$part1 /mnt/boot
     swapon /dev/$part3
     mount --mkdir /dev/$part4 /mnt/home
+
 }
 
 install_base() {
-    pacstrap -K /mnt base linux linux-firmware base-devel openssh $MICROCODE --noconfirm --needed
+    pacstrap -K /mnt base linux linux-firmware $MICROCODE --noconfirm --needed
+
 }
 
 gen_fstab() {
     genfstab -U /mnt >> /mnt/etc/fstab
+
 }
 
 install_packages() {
     pacman -S $PACKAGES --noconfirm --needed
+
 }
 
 set_timezone() {
     ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
     hwclock --systohc
+
 }
 
 set_locale() {
     sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
     echo "LANG=en_US.UTF-8" >> /etc/locale.conf
     locale-gen
+
 }
 
 set_keymap() {
@@ -184,12 +192,14 @@ set_keymap() {
     else
         echo "KEYMAP=$KEYMAP" >> /etc/vconsole.conf
     fi
+
 }
 
 set_host() {
     echo "$HOSTNAME" >> /etc/hostname
     echo "Enter Host Password"
     passwd
+
 }
 
 setup_network() {
@@ -202,11 +212,13 @@ setup_network() {
 EOF
     
     systemctl start NetworkManager && systemctl enable NetworkManager
+
 }
 
 create_user() {
     useradd -m -G wheel,adm,rfkill,network,video,audio,optical,storage,sys,systemd-journal,http,games,ftp,disk,kvm,input $USERNAME
     passwd $USERNAME
+
 }
 
 set_sudoers() {
@@ -221,10 +233,7 @@ boot_loader() {
     mount /dev/$part1 /boot/efi
     grub-install /dev/$DRIVE
     grub-mkconfig -o /boot/grub/grub.cfg
-}
 
-exit_chroot() {
-    umount -R /mnt
 }
 
 #uncomment to debug
