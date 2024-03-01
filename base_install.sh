@@ -88,7 +88,7 @@ setup() {
         echo 'Make sure you unmount everything before you try to run this script again.'
     else
         echo 'Unmounting filesystems'
-        exit_chroot
+        umount -R /mnt
         echo 'Done! Reboot system.'
         exit 0
     fi
