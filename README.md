@@ -14,7 +14,7 @@ This script takes some inpiration form [tom5760's arch-install script](https://g
 1. Please ensure you have a wifi connection.
 2. Copy the install script to the live image.
 ```
-curl -OLS https://github.com/Discr33t/arch-install/raw/main/base_install.sh
+curl -OLS https://github.com/Ryachenn/arch-install/raw/main/base_install.sh
 ```
 3. Make the install script executable.
 ```
