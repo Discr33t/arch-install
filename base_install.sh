@@ -110,14 +110,14 @@ configure() {
     echo "Setting Keymaps"
     set_keymap
 
+    echo "Setting up User Info"
+    create_user 
+
     echo "Setting up Host"
     set_host
 
     echo "Configuring Network"
     setup_network
-
-    echo "Setting up User Info and Set Sudoer Privileges"
-    create_user 
 
     echo "setting sudoer"
     set_sudoers
