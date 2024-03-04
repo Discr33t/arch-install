@@ -33,7 +33,7 @@ aur() {
     git clone https://aur.archlinux.org/yay.git
     #might change depending on if your making a yay directory
     cd yay
-    make -si
+    makepkg -si
 
     yay -S $browser
 
