@@ -42,3 +42,5 @@ aur() {
 #Download
 pacman
 aur
+
+rm desktop_setup.sh
